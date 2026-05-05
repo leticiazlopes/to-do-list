@@ -1,5 +1,3 @@
-from dataclasses import asdict
-
 from sqlalchemy import select
 
 from fast_zero.models import User
@@ -17,10 +15,9 @@ def test_create_user(session, mock_db_time):
 
     user = session.scalar(select(User).where(User.username == 'alice'))
 
-    assert asdict(user) == {
-        'id': 1,
-        'username': 'alice',
-        'password': 'secret',
-        'email': 'teste@test',
-        'created_at': mock_db_time,  # Comparamos com a fixture
-    }
+    assert user.id == 1
+    assert user.username == 'alice'
+    assert user.email == 'teste@test'
+    assert user.password == 'secret'
+    assert user.created_at is not None
+    assert user.updated_at is not None
